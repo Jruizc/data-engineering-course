@@ -14,11 +14,6 @@ ENV PATH="/code/.venv/bin:$PATH"
 # Install dependencies from lock file (ensures reproducible builds)
 RUN uv sync --locked
 
-RUN pip install pandas pyarrow
+COPY ingest_data.py .
 
-
-
-COPY pipeline.py .
-
-
-ENTRYPOINT [ "python", "pipeline.py" ]
+ENTRYPOINT [ "python", "ingest_data.py" ]

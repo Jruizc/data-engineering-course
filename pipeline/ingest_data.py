@@ -37,6 +37,8 @@ parse_dates = [
     "tpep_dropoff_datetime"
 ]
 
+print("Starting the ingestion script...")
+
 @click.command()
 @click.option('--pg-user', default='root', help='PostgreSQL username')
 @click.option('--pg-password', default='root', help='PostgreSQL password')
@@ -73,6 +75,11 @@ def run(pg_user, pg_password, pg_host, pg_port, pg_db, target_table, chunksize):
             name=target_table, 
             con=engine, 
             if_exists='append')
+
+    print("Ingestion completed.")
+
+if __name__ == "__main__":
+    run()
 
 
 
