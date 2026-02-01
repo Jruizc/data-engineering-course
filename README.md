@@ -41,5 +41,41 @@ group by zdo."Zone"
 order by 2 desc;
 
 
+# HOMEWORK 2
+
+The flows for the assigment task is in pipeline/kestra_flows
+
+# Question 1
+
+We can achieve this easily from kestra. We execute the flow 08_gcp_taxi with the following input parameters Taxi type Yellow, Year 2020 and Month 12. Then We go to big query in GC and check the generated file output size of yellow_tripdata_2020-12.csv.
+
+# Question 2
+
+file = {{inputs.taxi}}_tripdata_{{inputs.year}}-{{inputs.month}}.csv
+
+The inputs.taxi variable takes the value of green
+
+The inputs.year variable takes the value of 2020
+
+The inputs.month variable takes the value of 04
+
+Once the variable is rendered the file variable is green_tripdata_2020-04.csv
+
+# Question 3
+
+We have to execute the flow 09_gcp_taxi_scheduled by using the backfill execution on the yellow taxi trigger and introduce the range of dates from 2020-01 to 2020-31 so the flow will be executed 12 times one for each month. Then we go to GC and check in Big Query section the number of rows of the table yellow_tripdata.
+
+# Question 4
+
+We do the same than in the above exercise but on the green taxi.
+
+# Question 5
+
+We execute the flow 08_gcp_taxi with Green, 2021, and 03 as parameters. The we check the number of rows for the table yellow_tripdata_2021_03 in GC.
+
+# Question 6
+
+We can add a property timezone: America/New_York within the trigger section.
+
 
 
