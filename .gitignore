@@ -1,8 +1,12 @@
 *.parquet
 
+.venv
+
 __pycache__/
 *.py[codz]
 *$py.class
+
+/serving_dir/**
 
 # Local .terraform directories
 .terraform/

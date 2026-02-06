@@ -77,5 +77,58 @@ We execute the flow 08_gcp_taxi with Green, 2021, and 03 as parameters. The we c
 
 We can add a property timezone: America/New_York within the trigger section.
 
+# HOMEWORK 3
+
+# Question 1
+
+CREATE OR REPLACE EXTERNAL TABLE `nytaxi.yellow_tripdata_2024_external`
+OPTIONS (
+  format = 'PARQUET',
+  uris = ['https://storage.googleapis.com/kestra-course-bucket/yellow_tripdata_2024-*.parquet']
+);
+
+CREATE OR REPLACE TABLE `nytaxi.yellow_tripdata_2024_materialized`
+AS (
+  SELECT * FROM `nytaxi.yellow_tripdata_2024_external`
+);
+
+select count(*) from  `nytaxi.yellow_tripdata_2024_materialized`
+
+# Question 2
+
+SELECT DISTINCT COUNT(PULocationID)  FROM `kestra-course-485912.nytaxi.yellow_tripdata_2024_external`
+
+SELECT DISTINCT COUNT(PULocationID)  FROM `kestra-course-485912.nytaxi.yellow_tripdata_2024_materialized`
+
+# Question 3
+
+SELECT PULocationID  FROM `kestra-course-485912.nytaxi.yellow_tripdata_2024_materialized`
+
+SELECT PULocationID,DOLocationID  FROM `kestra-course-485912.nytaxi.yellow_tripdata_2024_materialized`
+
+# Question 4
+
+SELECT COUNT(*)  FROM `kestra-course-485912.nytaxi.yellow_tripdata_2024_materialized` WHERE fare_amount = 0
+
+# Question 5
+
+CREATE OR REPLACE TABLE `nytaxi.yellow_taxi_optimized`
+PARTITION BY DATE(tpep_dropoff_datetime)
+CLUSTER BY VendorID
+AS (
+  SELECT * FROM `kestra-course-485912.nytaxi.yellow_tripdata_2024_materialized`
+);
+
+# Question 6
+
+SELECT DISTINCT VendorID  FROM `kestra-course-485912.nytaxi.yellow_tripdata_2024_materialized` WHERE DATE(tpep_dropoff_datetime) BETWEEN '2024-03-01' AND '2024-03-15'
+
+SELECT DISTINCT VendorID  FROM `kestra-course-485912.nytaxi.yellow_taxi_optimized` WHERE DATE(tpep_dropoff_datetime) BETWEEN '2024-03-01' AND '2024-03-15'
+
+
+
+
+
+
 
 
