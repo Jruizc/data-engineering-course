@@ -15,10 +15,11 @@ BUCKET_NAME = "kestra-course-bucket"
 # client = storage.Client.from_service_account_json(CREDENTIALS_FILE)
 # If commented initialize client with the following
 client = storage.Client(project='kestra-course-485912')
+taxi = sys.argv[1] if len(sys.argv) > 1 else "yellow"
+year = sys.argv[2] if len(sys.argv) > 2 else "2024"
 
-
-BASE_URL = "https://d37ci6vzurychx.cloudfront.net/trip-data/yellow_tripdata_2024-"
-MONTHS = [f"{i:02d}" for i in range(1, 7)]
+BASE_URL = f"https://d37ci6vzurychx.cloudfront.net/trip-data/{taxi}_tripdata_{year}-"
+MONTHS = [f"{i:02d}" for i in range(1, 13)]
 DOWNLOAD_DIR = "."
 
 CHUNK_SIZE = 8 * 1024 * 1024
@@ -30,7 +31,7 @@ bucket = client.bucket(BUCKET_NAME)
 
 def download_file(month):
     url = f"{BASE_URL}{month}.parquet"
-    file_path = os.path.join(DOWNLOAD_DIR, f"yellow_tripdata_2024-{month}.parquet")
+    file_path = os.path.join(DOWNLOAD_DIR, f"{taxi}_tripdata_{year}-{month}.parquet")
 
     try:
         print(f"Downloading {url}...")
